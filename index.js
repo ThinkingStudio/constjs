@@ -14,13 +14,17 @@
  * @return {object}
  */
 
+function isString(v) {
+  return (typeof v == 'string' || v instanceof String)
+}
+
 var genConst = function(key) {
   var ret = {};
   var keys = [];
-  if (_.isArray(key)) {
+  if (Array.isArray(key)) {
     for (var i = 0, j = key.length; i < j; ++i) {
       var k = key[i];
-      if (!k || !_.isString(k)) {
+      if (!k || !isString(k)) {
         throw new Error("bad enum key: " + k);
       }
       keys.push(k);
@@ -31,7 +35,7 @@ var genConst = function(key) {
         keys.push(k)
       }
     }
-  } else if (!_.isString(key)) {
+  } else if (!isString(key)) {
     throw new Error('Argument must be a string or an array of strings.');
   } else {
     keys = key.split(/[,;:\s]+/);

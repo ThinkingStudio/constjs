@@ -1,7 +1,7 @@
 {
   "name": "gen_const",
   "id": "gen_const",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple utility for generating constant object with a string contains keys",
   "keywords": [ "enum", "const" ],
   "author": "Gelin Luo <greenlaw110@gmail.com>",
