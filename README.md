@@ -20,10 +20,12 @@ var myColor = Colors.blue;
 
 console.log(myColor.isBlue()); // output true
 console.log(myColor.is('blue')); // output true
+console.log(myColor.is('BLUE')); // output true
 console.log(myColor.is(0)); // output true
 console.log(myColor.is(Colors.blue)); // output true
 
 console.log(myColor.isRed()); // output false
+console.log(myColor.is('red')); // output false
 
 console.log(myColor._id); // output blue
 console.log(myColor.name()); // output blue
@@ -32,6 +34,7 @@ console.log(myColor.toString()); // output blue
 // See how CamelCase is used to generate the isXxx() functions
 var AppMode = ConstJs.enum('SIGN_UP, LOG_IN, FORGOT_PASSWORD');
 var curMode = AppMode.LOG_IN;
+
 console.log(curMode.isLogIn()); // output true
 console.log(curMode.isSignUp()); // output false
 console.log(curMode.isForgotPassword()); // output false
@@ -45,6 +48,7 @@ var ConstJs = require('constjs');
 
 var Weekdays = ConstJs.const("Mon, Tue, Wed");
 console.log(Weekdays); // output {Mon: 'Mon', Tue: 'Tue', Wed: 'Wed'}
+
 var today = Weekdays.Wed;
 console.log(today); // output: 'Wed';
 ```
