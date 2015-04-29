@@ -130,20 +130,48 @@ describe('genEnum', function() {
       var o = {
         flag: MyEnum.Key1,
         name: 'foo'
-      }
+      };
+
       var s = JSON.stringify(o);
-      //o = JSON.parse(s);
-      o = ConstJs.unJSON(s);
-      var Key1 = o.flag;
+      console.log(s);
+      var o2 = ConstJs.unJSON(s);
+
+      assert.equal(o2.name, o.name);
+
+      var flag = o2.flag;
+      assert.equal('Key1', flag._id);
+      assert.equal('Key1', flag.name());
+      assert.equal('Key1', flag.toString());
+      assert(flag.isKey1());
+      assert(!flag.isKey2());
+      assert(flag.is('KEY1'));
+      assert(flag.is(o.flag));
+    });
+
+    it('should not generate isXxx function list if generate enum using transient call', function() {
+      var TransientEnum = ConstJs.enum.transient('Key1, Key2');
+      var o = {
+        flag: TransientEnum.Key1,
+        name: 'foo'
+      };
+      
+      var s = JSON.stringify(o);
+      console.log(s);
+      assert(s.indexOf('Key2') < 0);
+
+      var o2 = ConstJs.unJSON(s);
+
+      assert.notEqual(o, o2);
+
+      var Key1 = o2.flag;
 
       assert.equal('Key1', Key1._id);
       assert.equal('Key1', Key1.name());
       assert.equal('Key1', Key1.toString());
-      assert.equal(true, Key1.isKey1());
-      assert.equal(false, Key1.isKey2());
-    })
-
-  })
+      Key1.should.not.have.property('isKey1');
+      Key1.should.not.have.property('isKey2');
+    });
+  });
 
 });
 

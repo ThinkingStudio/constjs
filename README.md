@@ -38,8 +38,88 @@ var curMode = AppMode.LOG_IN;
 console.log(curMode.isLogIn()); // output true
 console.log(curMode.isSignUp()); // output false
 console.log(curMode.isForgotPassword()); // output false
+```
+
+#### Enum serialization/deserialization with JSON
+
+Adding methods to enum elements could be very handy for use, however there is major concern about applying this style. Once you serialize your enum into JSON format string and parse it back, you loose all methods and suddenly all your code doesn't work anymore. Fortunately `constjs` provides a way `unJSON()` to to help you alleviate this concern:
+
+```javascript
+var ConstJs = require('constjs');
+
+...
+
+var Colors = ConstJs.enum('Red, Green, Blue');
+...
+
+var myData = {
+    name: 'blah blah',
+    color: Colors.Red
+}
+console.log(myData.color.isRed()); // output: true
+...
+
+var myDataStr = JSON.stringfy(myData);
+...
+
+myData = JSON.parse(myDataStr);
+// console.log(myData.color.isRed()); // exception thrown out here
+myData = ConstJs.unJSON(myData); 
+// or myData = ConstJs.unJSON(JSON.parse(myDataStr)); the same effects
+console.log(myData.color.isRed()); // output: true
 
 ```
+
+However there is cost associated with the `unJSON` feature, say, your JSON string will contains additional data to support deserialization. If you are sure you don't need to deserialize your enum data, `constjs` provides a way to generate relatively more lightweight enum data.
+
+Instead of 
+
+```javascript
+var Colors = ConstJs.enum('Red, Green, Blue');
+```
+
+You use `enum.transient`:
+
+```javascript
+var Colors = ConstJs.enum.transient('Red, Green, Blue');
+```
+
+or use the alias `enum.lite`:
+
+```javascript
+var Colors = ConstJs.enum.lite('Red, Green, Blue');
+```
+
+To compare the data been generated:
+
+```javascript
+var Colors = ConstJs.enum('Red, Green, Blue');
+var LiteColors = ConstJs.enum.lite('Red, Green, Blue');
+
+var myColor = Colors.Red, myLiteColor = LiteColors.Red;
+console.log({myColor: myColor, myLiteColor: myLiteColor});
+```
+
+You should be able to see something like:
+
+```javascript
+{
+    myColor: {_id: 'Red', _seq: 0, _kl: ['Red', 'Green', 'Blue']},
+    myLiteColor: {_id: 'Red', _seq: 0}
+}
+```
+
+And after `unJSON` call on `myLiteColor`, you will find that the `isRed()`, `isGreen()` and `isBlue()` method is no longer there. However you can still use `name()`, `toString()` and `is()` method on the `myColor` object after `unJSON()`:
+
+```javascript
+...
+var s = JSON.stringify(myLiteColor);
+var c = ConstJs.unJSON(s);
+
+console.log(c.isRed); // output: undefined
+console.log(c.name()); // output: 'Red'
+console.log(c.is('Red')); // output: true
+``` 
 
 ### String Constants
 
@@ -73,7 +153,7 @@ console.log(DayFlags.Mon); // output false. Default val wont override specified 
 ```
 
 
-## Input variations
+### Input variations
 
 Instead of a string of keys sepated by separators specified above, it can use another two variaions of input to specify keys:
 
@@ -142,6 +222,7 @@ console.log(ColorFlags.blue); // output: false
 ColorFlags.brown = false;
 console.log(ColorFlags.brown); // output: 'undefined'
 ```
+
 
 
 Dependencies
