@@ -1,9 +1,16 @@
 {
-  "name": "gen_const",
-  "id": "gen_const",
-  "version": "0.0.3",
-  "description": "A simple utility for generating constant object with a string contains keys",
-  "keywords": [ "enum", "const" ],
+  "name": "constjs",
+  "id": "constjs",
+  "version": "0.0.1",
+  "description": "A simple utility for generating an enum/const/bitmap object with a string contains enum keys",
+  "keywords": [
+    "enum",
+    "const",
+    "constant",
+    "bitmap",
+    "flag",
+    "immutable"
+  ],
   "author": "Gelin Luo <greenlaw110@gmail.com>",
   "homepage": "https://github.com/greenlaw110/constjs",
   "repository": {
@@ -14,16 +21,32 @@
     "url": "https://github.com/greenlaw110/constjs/issues"
   },
   "dependencies": {
+    "lodash": "^3.6.0",
+    "JSON": "*"
   },
-  "main": "./index.js",
+  "main": "./constjs.js",
   "engines": {
     "node": ">=0.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test-build"
   },
-  "licenses": [{
-    "type" : "MIT",
-    "url" : "https://github.com/sergi/jsftp/blob/master/LICENSE"
-  }]
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/greenlaw110/constjs/blob/master/LICENSE"
+    }
+  ],
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.10.0",
+    "gulp-mocha": "^2.0.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-streamify": "*",
+    "assert": "*",
+    "should": "*",
+    "gulp-rename": "*",
+    "gulp-replace": "*",
+    "del": "*"
+  }
 }
