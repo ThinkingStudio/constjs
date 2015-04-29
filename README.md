@@ -1,7 +1,7 @@
 constjs
 ========
 
-Create an const/enum/bitmap object with key names specified in String or object
+Create const/enum/bitmap object with key names specified in String, Array, Object or Arguments
 
 ## Usage
 
@@ -69,7 +69,7 @@ console.log(CityFlags.Chengdu); //output true
 console.log(CityFlags.Sydney); // output false
 
 var DayFlags = ConstJs.bitmap(true, {Mon: false, Tue: true});
-console.log(DayFlags.Mon); // output true 
+console.log(DayFlags.Mon); // output false. Default val wont override specified val if the type is boolean 
 ```
 
 
@@ -102,7 +102,47 @@ The input variations are supported by all three generators: `enum`, `const` and 
 
 ## Immutatibility
 
-`constjs` tried to use `Object.freeze()` to make the enum/const/bitmap object be immutabile. If your environment doesn't support `Object.freeze()`, e.g. IE 8 or before, you can still use `constjs`, but the object returned is not immutable.
+`constjs` tried to use `Object.freeze()` to make the enum/const object be immutabile:
+
+```javascript
+var ConstJs = require('constjs');
+
+// use array of strings to specify keys
+var Color = ConstJs.enum(["blue", "red"]);
+Color.blue = 'blue';
+console.log(Color.blue); // output {_id: 'blue', ...}
+
+var WeekDay = ConstJs.const('Mon Tue');
+WeekDay.Mon = false;
+console.log(WeekDay.Mon); // output: 'Mon'
+WeekDay.Wed = 'Wed';
+console.log(WeekDay.Wed); // output: 'undefined'
+```
+
+For `bitmap` object, `constjs` use `Object.seal()` so the flag could be set/unset. However it still doesn't allow properties been removed or added:
+
+```javascript
+var ConstJs = require('constjs');
+
+var ColorFlags = ConstJs.bitmap("blue red");
+ColorFlags.blue = true;
+console.log(ColorFlags.blue); // output: true
+ColorFlags.brown = false;
+console.log(ColorFlags.brown); // output: 'undefined'
+```
+
+However `constjs` provided an `immutable` function to `bitmap` thus it ensure the data returned is completely frozen:
+
+```javascript
+var ConstJs = require('constjs');
+
+var ColorFlags = ConstJs.bitmap.immutable("blue red");
+ColorFlags.blue = true;
+console.log(ColorFlags.blue); // output: false
+ColorFlags.brown = false;
+console.log(ColorFlags.brown); // output: 'undefined'
+```
+
 
 Dependencies
 --------------

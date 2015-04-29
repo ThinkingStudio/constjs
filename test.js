@@ -193,7 +193,7 @@ describe('Bitmap', function() {
     });
   });
 
-  describe('default value: ', function() {
+  describe(': default value: ', function() {
 
     it('should create bitmap with value equals to the default value', function() {
       var Bitmap = ConstJs.bitmap(true, 'Key1, Key2');
@@ -202,14 +202,44 @@ describe('Bitmap', function() {
     });
 
 
-    it('the default value shall not override specified value', function() {
+    it('the default value shall not override specified value if type is boolean', function() {
       var Bitmap = ConstJs.bitmap(true, {
         Key1: false,
         Key2: true
       });
       assert.equal(false, Bitmap.Key1);
       assert.equal(true, Bitmap.Key2);
-    })
+    });
+
+    it('the default value shall override specified value if type is not boolean', function() {
+      var Bitmap = ConstJs.bitmap(true, {
+        Key1: 0,
+        Key2: 1
+      });
+      assert.equal(true, Bitmap.Key1);
+      assert.equal(true, Bitmap.Key2);
+    });
+
+    it('shall not allow extend the bitmap after it is created', function() {
+      var Bitmap = ConstJs.bitmap('F1, F2');
+      Bitmap.F3 = false;
+      Bitmap.should.not.have.property('F3');
+    });
+
+    it('shall allow set the bitmap after it is created', function() {
+      var Bitmap = ConstJs.bitmap('F1, F2');
+      assert(!Bitmap.F1);
+      Bitmap.F1 = true;
+      assert(Bitmap.F1);
+    });
+
+    it('shall NOT allow set the bitmap after it is created with immutable function', function() {
+      var Bitmap = ConstJs.bitmap.immutable('F1, F2');
+      assert(!Bitmap.F1);
+      Bitmap.F1 = true;
+      assert(!Bitmap.F1);
+    });
+    
   });
 
 })
