@@ -133,7 +133,6 @@ describe('genEnum', function() {
       };
 
       var s = JSON.stringify(o);
-      console.log(s);
       var o2 = ConstJs.unJSON(s);
 
       assert.equal(o2.name, o.name);
@@ -156,7 +155,6 @@ describe('genEnum', function() {
       };
       
       var s = JSON.stringify(o);
-      console.log(s);
       assert(s.indexOf('Key2') < 0);
 
       var o2 = ConstJs.unJSON(s);
