@@ -3,13 +3,13 @@ constjs
 
 Create an const/enum/bitmap object with key names specified in String or object
 
-Usage
------
+## Usage
+
 
 `npm install constjs`
 
 
-1. Enum (Java style)
+### Enum (Java style)
 
 ```javascript
 var ConstJs = require('constjs');
@@ -38,7 +38,7 @@ console.log(curMode.isForgotPassword()); // output false
 
 ```
 
-2. String Constants
+### String Constants
 
 ```javascript
 var ConstJs = require('constjs');
@@ -49,7 +49,7 @@ var today = Weekdays.Wed;
 console.log(today); // output: 'Wed';
 ```
 
-3. Bitmap
+### Bitmap
 
 ```javascript
 var ConstJs = require('constjs');
@@ -69,8 +69,7 @@ console.log(DayFlags.Mon); // output true
 ```
 
 
-Input variations
------------------
+## Input variations
 
 Instead of a string of keys sepated by separators specified above, it can use another two variaions of input to specify keys:
 
@@ -97,8 +96,7 @@ var myDay = WeekDay.Monday;
 The input variations are supported by all three generators: `enum`, `const` and `bitmap`
 
 
-Immutatibility
----------------
+## Immutatibility
 
 `constjs` tried to use `Object.freeze()` to make the enum/const/bitmap object be immutabile. If your environment doesn't support `Object.freeze()`, e.g. IE 8 or before, you can still use `constjs`, but the object returned is not immutable.
 
