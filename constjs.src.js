@@ -25,8 +25,8 @@ function keysFromArray(array) {
   var a = [];
   for (var i = 0, j = array.length; i < j; ++i) {
     var k = array[i];
-    ensureValidEnumKeyName(k);
-    a.push(array[i]);
+    var a1 = keysFromString(k);
+    a = a.concat(a1);
   }
   return a;
 }

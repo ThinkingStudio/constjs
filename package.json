@@ -1,7 +1,7 @@
 {
   "name": "constjs",
   "id": "constjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple utility for generating an enum/const/bitmap object with a string contains enum keys",
   "keywords": [
     "enum",

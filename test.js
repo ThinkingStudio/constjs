@@ -91,6 +91,13 @@ describe('genEnum', function() {
       Foo.should.have.property('Bar').Object;
     });
 
+    it('should be able to specify enum keys by String array in which string contains separator', function() {
+      var Foo = ConstJs.enum(['Foo', 'Bar, Zee']);
+      Foo.should.have.property('Foo').Object;
+      Foo.should.have.property('Bar').Object;
+      Foo.should.have.property('Zee').Object;
+    });
+
     it('should be able to specify enum keys by Object', function() {
       var Foo = ConstJs.enum({
         Foo: null,
